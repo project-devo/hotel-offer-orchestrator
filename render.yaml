@@ -1,0 +1,40 @@
+# Render Blueprint (infrastructure as code). The live resources were created to match this file.
+# Everything is on the free plan in Singapore.
+services:
+  - type: web
+    name: hotel-offer-orchestrator-api
+    runtime: docker
+    plan: free
+    region: singapore
+    repo: https://github.com/project-devo/hotel-offer-orchestrator
+    branch: main
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    healthCheckPath: /health/live
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # One container runs the Temporal dev server, the HTTP API and the worker (no free background workers).
+      - key: APP_MODE
+        value: all
+      - key: EMBEDDED_TEMPORAL
+        value: "true"
+      - key: TEMPORAL_ADDRESS
+        value: 127.0.0.1:7233
+      - key: TEMPORAL_NAMESPACE
+        value: default
+      - key: LOG_LEVEL
+        value: info
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: hotel-offers-redis
+          property: connectionString
+
+  - type: keyvalue
+    name: hotel-offers-redis
+    plan: free
+    region: singapore
+    maxmemoryPolicy: allkeys-lru
+    ipAllowList: []
