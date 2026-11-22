@@ -1,0 +1,20 @@
+[
+  { "hotelId": "a1", "name": "Holtin", "price": 6000, "city": "delhi", "commissionPct": 10 },
+  { "hotelId": "a2", "name": "Radison", "price": 5900, "city": "delhi", "commissionPct": 13 },
+  { "hotelId": "a3", "name": "Lotus Grand", "price": 8200, "city": "delhi", "commissionPct": 12 },
+  { "hotelId": "a4", "name": "Marigold Suites", "price": 11200, "city": "delhi", "commissionPct": 15 },
+  { "hotelId": "a5", "name": "Neem Tree Inn", "price": 3400, "city": "delhi", "commissionPct": 8 },
+  { "hotelId": "a6", "name": "Saffron Court", "price": 7600, "city": "delhi", "commissionPct": 14 },
+  { "hotelId": "a7", "name": "Banyan Stay", "price": 2900, "city": "delhi", "commissionPct": 9 },
+  { "hotelId": "a8", "name": "Seabreeze Residency", "price": 7400, "city": "mumbai", "commissionPct": 12 },
+  { "hotelId": "a9", "name": "Pearl Arch", "price": 9100, "city": "mumbai", "commissionPct": 14 },
+  { "hotelId": "a10", "name": "Monsoon House", "price": 4800, "city": "mumbai", "commissionPct": 10 },
+  { "hotelId": "a11", "name": "Palm Shore Hotel", "price": 6200, "city": "mumbai", "commissionPct": 9 },
+  { "hotelId": "a12", "name": "Coral Bay Inn", "price": 3600, "city": "mumbai", "commissionPct": 11 },
+  { "hotelId": "a13", "name": "Marine Crest", "price": 12500, "city": "mumbai", "commissionPct": 18 },
+  { "hotelId": "a14", "name": "Garden Terrace", "price": 5200, "city": "bangalore", "commissionPct": 11 },
+  { "hotelId": "a15", "name": "Silicon Nest", "price": 4100, "city": "bangalore", "commissionPct": 9 },
+  { "hotelId": "a16", "name": "Cubbon Retreat", "price": 7800, "city": "bangalore", "commissionPct": 16 },
+  { "hotelId": "a17", "name": "Jasmine Yard", "price": 3300, "city": "bangalore", "commissionPct": 8 },
+  { "hotelId": "a18", "name": "Lalbagh Lodge", "price": 2600, "city": "bangalore", "commissionPct": 7 }
+]
