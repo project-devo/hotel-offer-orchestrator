@@ -1,0 +1,76 @@
+name: hotel-offer-orchestrator
+
+x-backend: &backend
+  build:
+    context: ./backend
+  image: hotel-offer-orchestrator-backend:local
+  restart: unless-stopped
+  depends_on:
+    redis:
+      condition: service_healthy
+    temporal:
+      condition: service_healthy
+
+x-backend-env: &backend-env
+  NODE_ENV: production
+  LOG_LEVEL: info
+  REDIS_URL: redis://redis:6379
+  TEMPORAL_ADDRESS: temporal:7233
+  TEMPORAL_NAMESPACE: default
+  TEMPORAL_TASK_QUEUE: hotel-offers
+  EMBEDDED_TEMPORAL: "false"
+  SUPPLIER_BASE_URL: http://api:3000
+  CORS_ORIGINS: http://localhost:5173
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  temporal:
+    image: temporalio/temporal:1.10.1
+    command: ["server", "start-dev", "--ip", "0.0.0.0", "--port", "7233", "--ui-port", "8233"]
+    ports:
+      - "7233:7233"
+      - "8233:8233"
+    healthcheck:
+      test: ["CMD", "temporal", "operator", "cluster", "health", "--address", "127.0.0.1:7233"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+
+  api:
+    <<: *backend
+    environment:
+      <<: *backend-env
+      APP_MODE: api
+      PORT: "3000"
+    ports:
+      # Override the host port if 3000 is taken: API_PORT=3001 docker compose up -d
+      - "${API_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health/live').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+  worker:
+    <<: *backend
+    environment:
+      <<: *backend-env
+      APP_MODE: worker
+    depends_on:
+      redis:
+        condition: service_healthy
+      temporal:
+        condition: service_healthy
+      api:
+        condition: service_healthy
