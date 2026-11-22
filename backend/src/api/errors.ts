@@ -22,3 +22,12 @@ export class AppError extends Error {
 
 export const cacheUnavailable = (cause: unknown) =>
   new AppError(503, 'CACHE_UNAVAILABLE', 'The cache is temporarily unavailable', undefined, { cause });
+
+/** Run a Redis operation; any failure becomes 503 CACHE_UNAVAILABLE. */
+export async function viaRedis<T>(op: () => Promise<T>): Promise<T> {
+  try {
+    return await op();
+  } catch (err) {
+    throw cacheUnavailable(err);
+  }
+}
