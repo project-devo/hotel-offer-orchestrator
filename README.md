@@ -6,9 +6,9 @@ A TypeScript service that asks two hotel suppliers for offers in a city, removes
 
 | | |
 |---|---|
-| **Frontend** | TBD |
-| **API example** | TBD |
-| **Health** | TBD |
+| **Frontend** | https://hotel-offer-orchestrator-one.vercel.app |
+| **API example** | https://hotel-offer-orchestrator-api.onrender.com/api/hotels?city=delhi |
+| **Health** | https://hotel-offer-orchestrator-api.onrender.com/health |
 
 > The backend runs on Render's free tier and goes to sleep when idle. The first request after a pause can take about a minute while the container wakes up.
 
@@ -164,7 +164,7 @@ Simulated outages are stored as `supplier:status:A` / `supplier:status:B` = `dow
 
 ## API reference
 
-Base URL: `http://localhost:3000` locally, or the Render URL above.
+Base URL: `http://localhost:3000` locally, or `https://hotel-offer-orchestrator-api.onrender.com` in production.
 
 ### `GET /api/hotels`
 
