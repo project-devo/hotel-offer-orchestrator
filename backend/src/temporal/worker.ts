@@ -21,7 +21,9 @@ function installRuntimeLogger(): void {
   const methods = { TRACE: 'trace', DEBUG: 'debug', INFO: 'info', WARN: 'warn', ERROR: 'error' } as const;
   Runtime.install({
     logger: new DefaultLogger(temporalLevel[config.LOG_LEVEL] ?? 'ERROR', ({ level, message, meta }) => {
-      log[methods[level]](meta ?? {}, message);
+      // taskToken is an opaque base64 blob: noise in logs.
+      const { taskToken: _taskToken, ...fields } = meta ?? {};
+      log[methods[level]](fields, message);
     }),
   });
 }
